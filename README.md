@@ -1,5 +1,6 @@
 # Qwestr-API
-Your app description comes here.
+
+Qwestr API Server, bootstrapped with a [Yeoman generator for an ES2015 enabled GraphQL Server](https://github.com/stylesuxx/generator-es6-graphql).
 
 ## Usage
 
@@ -23,3 +24,12 @@ If you want to deploy your application, simply copy the build folder and invoke
 ```Bash
 node server.js
 ```
+## License
+
+Copyright © 2016-2017 Qwestr LLC. This source code is licensed under the MIT
+license found in the [LICENSE.txt](https://github.com/Qwestr-API/Qwestr/blob/master/LICENSE.txt)
+file. The documentation to the project is licensed under the
+[CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/) license.
+
+---
+Made with ♥ by Shawn Daichendt ([@shawndaichendt](https://twitter.com/shawndaichendt)) and [contributors](https://github.com/Qwestr/Qwestr-API/graphs/contributors)
