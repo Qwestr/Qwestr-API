@@ -1,5 +1,5 @@
 import passport from 'passport';
-/*import config from './passportConfig'*/
+import config from './config/passport';
 import passportFacebook from 'passport-facebook';
 import passportGoogle from 'passport-google-oauth';
 import passportLocal from 'passport-local';
