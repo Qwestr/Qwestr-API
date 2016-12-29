@@ -36,7 +36,7 @@ server.get('/auth/google/callback', passport.authenticate('google', {
   failureRedirect: '/login'
 }));
 
-server.get('/auth/facebook', passport.authenticate('facebook'));
+server.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 server.get('/auth/facebook/callback', passport.authenticate('facebook', {
   successRedirect: '/',
   failureRedirect: '/login'
