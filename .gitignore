@@ -24,6 +24,9 @@
 .env.test.local
 .env.production.local
 
+# database files
+dev.db
+
 # firebase files
 /.firebase
 .firebaserc
