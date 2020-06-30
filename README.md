@@ -23,6 +23,9 @@ Once you've made your model changes in `/prisma/schema.prisma`, simply run `yarn
 A new migration folder/ files will be created.  You can then execute the migration using<b>
 `yarn migrate:update` or `yarn migrate:update-verbose`.
 
+Once you execute a migration, you will also have to generate new Prisma Client code by running<b>
+`yarn generate`
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -30,6 +33,10 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the API at [http://localhost:3001](http://localhost:3001).
+
+### `yarn generate`
+
+Generates the latest Prisma Client module based on your schema.
 
 ### `yarn migrate:create`
 

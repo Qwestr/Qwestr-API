@@ -117,11 +117,12 @@ app.post(
   `/qwests`,
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request body
-    const { title, userId } = req.body;
+    const { title, completeBy, userId } = req.body;
     // Create the entity
     const result = await prisma.qwest.create({
       data: {
         title,
+        completeBy,
         user: { connect: { id: userId } },
       },
     });
@@ -152,12 +153,13 @@ app.put(
     // Deserialize the request params
     const { id } = req.params;
     // Deserialize the request body
-    const { title, userId } = req.body;
+    const { title, completeBy, userId } = req.body;
     // Update the entity
     const result = await prisma.qwest.update({
       where: { id: Number(id) },
       data: {
         title,
+        completeBy,
         user: { connect: { id: userId } },
       },
     });
