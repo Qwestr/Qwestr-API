@@ -29,16 +29,17 @@ In the project directory, you can run:
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+The page will reload if you make edits to the code.
 
 ### `yarn migrate:create`
 
-Creates a new migration folder/ files using `prisma migrate save --experimental`.
+Creates a new migration folder/ files under `/prisma/migrations` using<b>
+`prisma migrate save --experimental`.
 
 ### `yarn migrate:update`
 
-Migrates the database using `prisma migrate up --experimental`.
+Migrates the database using<b>
+`prisma migrate up --experimental`.
 
 ## License
 
