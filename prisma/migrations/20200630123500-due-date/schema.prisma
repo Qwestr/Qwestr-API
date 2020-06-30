@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource sqlite {
+  provider = "sqlite"
+  url = "***"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Qwest {
+  id         Int       @default(autoincrement()) @id
+  createdAt  DateTime  @default(now())
+  title      String
+  completeBy DateTime?
+  user       User      @relation(fields: [userId], references: [id])
+  userId     Int
+}
+
+model User {
+  id     Int     @default(autoincrement()) @id
+  email  String  @unique
+  name   String
+  qwests Qwest[]
+}
