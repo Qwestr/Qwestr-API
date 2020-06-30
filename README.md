@@ -6,11 +6,13 @@ Qwestr API Server, built with [Express](https://expressjs.com/) and [Prisma](htt
 
 1.  Install all required packages using `yarn install`
 
-2.  Create a file in the `/prisma` dir called `dev.db`
+2.  Create a file in the `/prisma` dir called `dev.db`.
 
-3.  Migrate the database to the latest version using `yarn migrate:update`
+2.  Create a file in the `/prisma` dir called `.env` and `DATABASE_URL="file:./dev.db"`
 
-4.  Run `yarn start` to start the application
+4.  Migrate the database to the latest version using `yarn migrate:update`
+
+5.  Run `yarn start` to start the application
 
 ## Migration
 
