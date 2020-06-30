@@ -18,7 +18,8 @@ This application utilizes [Prisma-Migrate](https://www.prisma.io/docs/reference/
 
 Once you've made your model changes in `/prisma/schema.prisma`, simply run `yarn migrate:create`.
 
-A new migration folder/ files will be created.  You can then execute the migration using `yarn migrate:update`.
+A new migration folder/ files will be created.  You can then execute the migration using<b>
+`yarn migrate:update` or `yarn migrate:update-verbose`.
 
 ## Available Scripts
 
@@ -40,6 +41,11 @@ Creates a new migration folder/ files under `/prisma/migrations` using<b>
 
 Migrates the database using<b>
 `prisma migrate up --experimental`.
+
+### `yarn migrate:update-verbose`
+
+Migrates the database using<b>
+`prisma migrate up --experimental --verbose`.
 
 ## License
 
