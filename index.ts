@@ -21,9 +21,19 @@ app.use(bodyParser.json());
 
 app.get(
   `/users`,
-  catchAsync(async (_req: any, res: any, _next: any) => {
+  catchAsync(async (req: any, res: any, _next: any) => {
+    // Deserialize the request query
+    const { _start, _end, _sort, _order } = req.query;
+    // Define parameters
+    const params = {
+      skip: parseInt(_start),
+      take: parseInt(_end),
+      orderBy: {
+        [_sort]: _order == 'ASC' ? 'asc' : 'desc',
+      },
+    };
     // Get the data
-    const result = await prisma.user.findMany();
+    const result = await prisma.user.findMany(params);
     // Set the headers
     res.set("x-total-count", result.length.toString());
     // Return the result
@@ -103,9 +113,19 @@ app.delete(
 
 app.get(
   `/qwests`,
-  catchAsync(async (_req: any, res: any, _next: any) => {
+  catchAsync(async (req: any, res: any, _next: any) => {
+    // Deserialize the request query
+    const { _start, _end, _sort, _order } = req.query;
+    // Define parameters
+    const params = {
+      skip: parseInt(_start),
+      take: parseInt(_end),
+      orderBy: {
+        [_sort]: _order == 'ASC' ? 'asc' : 'desc',
+      },
+    };
     // Get the data
-    const result = await prisma.qwest.findMany();
+    const result = await prisma.qwest.findMany(params);
     // Set headers
     res.set("x-total-count", result.length.toString());
     // Return the result
