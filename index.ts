@@ -23,21 +23,35 @@ app.get(
   `/users`,
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request query
-    const { _start, _end, _sort, _order } = req.query;
-    // Define parameters
-    const params = {
-      skip: parseInt(_start),
-      take: parseInt(_end),
-      orderBy: {
-        [_sort]: _order == 'ASC' ? 'asc' : 'desc',
-      },
-    };
-    // Get the data
-    const result = await prisma.user.findMany(params);
-    // Set the headers
-    res.set("x-total-count", result.length.toString());
-    // Return the result
-    res.json(result);
+    const { id, _start, _end, _sort, _order } = req.query;
+    // TODO: design better solution for handling 'id' being passed
+    // in as a query parameter by react-admin
+    if (id) {
+      // Get the entity
+      const result = await prisma.user.findOne({
+        where: {
+          id: Number(id),
+        },
+      });
+      // Return the result (as an array)
+      res.json([result]);
+    } else {
+      // Define parameters
+      const params = {
+        skip: parseInt(_start),
+        take: parseInt(_end),
+        // TODO: address order symbol discrepencies btw Prisma/ RA
+        orderBy: {
+          [_sort]: _order == "ASC" ? "asc" : "desc",
+        },
+      };
+      // Get the collection
+      const result = await prisma.user.findMany(params);
+      // Set the headers
+      res.set("x-total-count", result.length.toString());
+      // Return the result
+      res.json(result);
+    }
   })
 );
 
@@ -63,7 +77,7 @@ app.get(
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request params
     const { id } = req.params;
-    // Get the data
+    // Get the entity
     const result = await prisma.user.findOne({
       where: {
         id: Number(id),
@@ -115,21 +129,35 @@ app.get(
   `/qwests`,
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request query
-    const { _start, _end, _sort, _order } = req.query;
-    // Define parameters
-    const params = {
-      skip: parseInt(_start),
-      take: parseInt(_end),
-      orderBy: {
-        [_sort]: _order == 'ASC' ? 'asc' : 'desc',
-      },
-    };
-    // Get the data
-    const result = await prisma.qwest.findMany(params);
-    // Set headers
-    res.set("x-total-count", result.length.toString());
-    // Return the result
-    res.json(result);
+    const { id, _start, _end, _sort, _order } = req.query;
+    // TODO: design better solution for handling 'id' being passed
+    // in as a query parameter by react-admin
+    if (id) {
+      // Get the entity
+      const result = await prisma.user.findOne({
+        where: {
+          id: Number(id),
+        },
+      });
+      // Return the result (as an array)
+      res.json([result]);
+    } else {
+      // Define parameters
+      const params = {
+        skip: parseInt(_start),
+        take: parseInt(_end),
+        // TODO: address order symbol discrepencies btw Prisma/ RA
+        orderBy: {
+          [_sort]: _order == "ASC" ? "asc" : "desc",
+        },
+      };
+      // Get the collection
+      const result = await prisma.qwest.findMany(params);
+      // Set headers
+      res.set("x-total-count", result.length.toString());
+      // Return the result
+      res.json(result);
+    }
   })
 );
 
@@ -156,7 +184,7 @@ app.get(
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request params
     const { id } = req.params;
-    // Get the data
+    // Get the entity
     const result = await prisma.qwest.findOne({
       where: {
         id: Number(id),
