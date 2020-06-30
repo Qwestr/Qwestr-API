@@ -1,35 +1,55 @@
 # Qwestr-API
 
-Qwestr API Server, bootstrapped with a [Yeoman generator for an ES2015 enabled GraphQL Server](https://github.com/stylesuxx/generator-es6-graphql).
+Qwestr API Server, built with [Express](https://expressjs.com/) and [Prisma](https://www.prisma.io/).
 
-## Usage
+## Deployment
 
-### Start the Development Server
-```Bash
-npm start
-```
+1.  Install all required packages using `yarn install`
 
-When starting the server there are a couple of parameters you can pass:
-* verbose - Enable verbose output
-* release - Enable release mode, which will generally disable debugging features
+2.  Create a file in the `/prisma` dir called `dev.db`
 
-Hot reloading is in place, so you do not need to restart the server on file change.
+3.  Migrate the database to the latest version using `yarn migrate:update`
 
-#### Environment Variables
-The following environment variables are supported:
-* PORT - defaults to 1234 if not set
+4.  Run `yarn start` to start the application
 
-### Deployment
-If you want to deploy your application, simply copy the build folder and invoke
-```Bash
-node server.js
-```
+## Migration
+
+This application utilizes [Prisma-Migrate](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-migrate) to create and run its database migrations.
+
+Once you've made your model changes in `/prisma/schema.prisma`, simply run `yarn migrate:create`.
+
+A new migration folder/ files will be created.  You can then execute the migration using<b>
+`yarn migrate:update` or `yarn migrate:update-verbose`.
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `yarn start`
+
+Runs the API at [http://localhost:3001](http://localhost:3001).
+
+### `yarn migrate:create`
+
+Creates a new migration folder/ files under `/prisma/migrations` using<b>
+`prisma migrate save --experimental`.
+
+### `yarn migrate:update`
+
+Migrates the database using<b>
+`prisma migrate up --experimental`.
+
+### `yarn migrate:update-verbose`
+
+Migrates the database using<b>
+`prisma migrate up --experimental --verbose`.
+
 ## License
 
-Copyright © 2016-2017 Qwestr LLC. This source code is licensed under the MIT
+Copyright © 2016-2020 Qwestr LLC. This source code is licensed under the MIT
 license found in the [LICENSE.txt](https://github.com/Qwestr-API/Qwestr/blob/master/LICENSE.txt)
 file. The documentation to the project is licensed under the
 [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/) license.
 
 ---
-Made with ♥ by Shawn Daichendt ([@shawndaichendt](https://twitter.com/shawndaichendt)) and [contributors](https://github.com/Qwestr/Qwestr-API/graphs/contributors)
+Made with ♥ by the [QwestrDevs](https://github.com/Qwestr/Qwestr-API/graphs/contributors)
