@@ -27,19 +27,19 @@ app.get(
     // TODO: design better solution for handling 'id' being passed
     // in as a query parameter by react-admin
     if (id) {
-      // Get the entity
-      const result = await prisma.user.findOne({
+      // Get the collection
+      const result = await prisma.user.findMany({
         where: {
-          id: Number(id),
+          id: { in: [...id].map((x) => +x) },
         },
       });
-      // Return the result (as an array)
-      res.json([result]);
+      // Return the result
+      res.json(result);
     } else {
       // Define parameters
       const params = {
-        skip: parseInt(_start),
-        take: parseInt(_end),
+        skip: +_start,
+        take: +_end,
         // TODO: address order symbol discrepencies btw Prisma/ RA
         orderBy: {
           [_sort]: _order == "ASC" ? "asc" : "desc",
@@ -80,7 +80,7 @@ app.get(
     // Get the entity
     const result = await prisma.user.findOne({
       where: {
-        id: Number(id),
+        id: +id,
       },
     });
     // Return the result
@@ -97,7 +97,7 @@ app.put(
     const { name } = req.body;
     // Update the entity
     const result = await prisma.user.update({
-      where: { id: Number(id) },
+      where: { id: +id },
       data: {
         name,
       },
@@ -115,7 +115,7 @@ app.delete(
     // Delete the entity
     const result = await prisma.user.delete({
       where: {
-        id: Number(id),
+        id: +id,
       },
     });
     // Return the result
@@ -133,10 +133,10 @@ app.get(
     // TODO: design better solution for handling 'id' being passed
     // in as a query parameter by react-admin
     if (id) {
-      // Get the entity
-      const result = await prisma.user.findOne({
+      // Get the collection
+      const result = await prisma.user.findMany({
         where: {
-          id: Number(id),
+          id: { in: [...id].map((x) => +x) },
         },
       });
       // Return the result (as an array)
@@ -144,8 +144,8 @@ app.get(
     } else {
       // Define parameters
       const params = {
-        skip: parseInt(_start),
-        take: parseInt(_end),
+        skip: +_start,
+        take: +_end,
         // TODO: address order symbol discrepencies btw Prisma/ RA
         orderBy: {
           [_sort]: _order == "ASC" ? "asc" : "desc",
@@ -187,7 +187,7 @@ app.get(
     // Get the entity
     const result = await prisma.qwest.findOne({
       where: {
-        id: Number(id),
+        id: +id,
       },
     });
     // Return the result
@@ -204,7 +204,7 @@ app.put(
     const { title, completeBy, userId } = req.body;
     // Update the entity
     const result = await prisma.qwest.update({
-      where: { id: Number(id) },
+      where: { id: +id },
       data: {
         title,
         completeBy,
@@ -224,7 +224,7 @@ app.delete(
     // Delete the entity
     const result = await prisma.qwest.delete({
       where: {
-        id: Number(id),
+        id: +id,
       },
     });
     // Return the result
