@@ -129,7 +129,7 @@ app.get(
   `/qwests`,
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request query
-    const { id, userId, _start, _end, _sort, _order } = req.query;
+    const { id, q, userId, _start, _end, _sort, _order } = req.query;
     // TODO: design better solution for handling 'id' being passed
     // in as a query parameter by react-admin
     if (id) {
@@ -151,9 +151,21 @@ app.get(
           [_sort]: _order == "ASC" ? "asc" : "desc",
         },
       };
-      // Check for user filter
-      if (userId) {
-        params.where = { userId: { in: [...userId].map((x) => +x) } }
+      // Check for search query/ filters
+      if (q && userId) {
+        params.where = {
+          AND: [
+            { title: { contains: q } },
+            { userId: { in: [...userId].map((x) => +x) } },
+          ],
+        };
+      } else {
+        if (q) {
+          params.where = { title: { contains: q } };
+        }
+        if (userId) {
+          params.where = { userId: { in: [...userId].map((x) => +x) } };
+        }
       }
       // Get the collection
       const result = await prisma.qwest.findMany(params);
