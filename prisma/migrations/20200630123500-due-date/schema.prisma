@@ -3,7 +3,7 @@
 
 datasource sqlite {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
