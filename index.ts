@@ -131,8 +131,8 @@ app.get(
     // Deserialize the request query
     const {
       id,
-      complete_by_no,
-      complete_by_yes,
+      completeByNo,
+      completeByYes,
       q,
       userId,
       _start,
@@ -162,7 +162,7 @@ app.get(
         },
       };
       // Check for search query/ filters
-      if ([q, complete_by_no, complete_by_yes, userId].some((x) => !!x)) {
+      if ([q, completeByNo, completeByYes, userId].some((x) => !!x)) {
         // Define params' where list
         params.where = {
           AND: [],
@@ -174,7 +174,12 @@ app.get(
         if (userId) {
           params.where.AND.push({ userId: { in: [...userId].map((x) => +x) } });
         }
-        // console.log("params.where.AND", params.where.AND);
+        if (completeByNo && !completeByYes) {
+          params.where.AND.push({ completeBy: null });
+        }
+        if (completeByYes && !completeByNo) {
+          params.where.AND.push({ NOT: [{ completeBy: null }] });
+        }
       }
       // Get the collection
       const result = await prisma.qwest.findMany(params);
