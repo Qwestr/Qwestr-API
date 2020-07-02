@@ -129,7 +129,7 @@ app.get(
   `/qwests`,
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request query
-    const { id, _start, _end, _sort, _order } = req.query;
+    const { id, userId, _start, _end, _sort, _order } = req.query;
     // TODO: design better solution for handling 'id' being passed
     // in as a query parameter by react-admin
     if (id) {
@@ -143,7 +143,7 @@ app.get(
       res.json([result]);
     } else {
       // Define parameters
-      const params = {
+      let params: any = {
         skip: +_start,
         take: +_end,
         // TODO: address order symbol discrepencies btw Prisma/ RA
@@ -151,6 +151,10 @@ app.get(
           [_sort]: _order == "ASC" ? "asc" : "desc",
         },
       };
+      // Check for user filter
+      if (userId) {
+        params.where = { userId: { in: [...userId].map((x) => +x) } }
+      }
       // Get the collection
       const result = await prisma.qwest.findMany(params);
       // Set headers
