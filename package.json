@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
+    "generate": "prisma generate",
     "migrate:create": "prisma migrate save --experimental",
     "migrate:update": "prisma migrate up --experimental",
     "migrate:update-verbose": "prisma migrate up --experimental --verbose",
