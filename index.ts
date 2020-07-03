@@ -269,6 +269,8 @@ app.use((err: any, _req: any, res: any, _next: any) => {
   res.json({ error: err });
 });
 
-const server = app.listen(3001, () =>
+// Run the application
+
+app.listen(process.env.PORT || 3001, () =>
   console.log("🚀 Server ready at: http://localhost:3001")
 );
