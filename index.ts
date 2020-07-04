@@ -51,8 +51,11 @@ app.get(
         },
       };
       console.log('params', params);
+      console.log('prisma.user', prisma.user)
+      console.log('prisma.user.findMany', prisma.user.findMany)
       // Get the collection
-      const result = await prisma.user.findMany(params);
+      // const result = await prisma.user.findMany(params);
+      const result = await prisma.user.findMany();
       console.log('result', result);
       // Set the headers
       res.set("x-total-count", result.length.toString());
