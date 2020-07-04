@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import * as bodyParser from "body-parser";
-import * as cors from "cors";
+import cors from "cors";
 import express from "express";
 
 const prisma = new PrismaClient();
@@ -19,6 +19,14 @@ const catchAsync = (fn: any) => {
 };
 
 // Configure CORS
+
+// const options:cors.CorsOptions = {
+//   allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
+//   credentials: true,
+//   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+//   origin: API_URL,
+//   preflightContinue: false
+// };
 
 app.use(cors())
 
