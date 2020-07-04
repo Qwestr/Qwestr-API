@@ -20,15 +20,15 @@ const catchAsync = (fn: any) => {
 
 // Configure CORS
 
-// const options:cors.CorsOptions = {
-//   allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
+const options:cors.CorsOptions = {
+  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token, X-Total-Count"],
 //   credentials: true,
 //   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
 //   origin: API_URL,
 //   preflightContinue: false
-// };
+};
 
-app.use(cors())
+app.use(cors(options))
 
 // Configure JSON responses
 
@@ -65,7 +65,7 @@ app.get(
       // Get the collection
       const result = await prisma.user.findMany(params);
       // Set the headers
-      res.set("x-total-count", result.length.toString());
+      res.set("X-Total-Count", result.length.toString());
       // Return the result
       res.json(result);
     }
@@ -201,7 +201,7 @@ app.get(
       // Get the collection
       const result = await prisma.qwest.findMany(params);
       // Set headers
-      res.set("x-total-count", result.length.toString());
+      res.set("X-Total-Count", result.length.toString());
       // Return the result
       res.json(result);
     }
