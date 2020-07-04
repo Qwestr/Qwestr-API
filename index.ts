@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 app.get(
   `/users`,
   catchAsync(async (req: any, res: any, _next: any) => {
+    console.log('in /users GET method..');
     // Deserialize the request query
     const { id, _start, _end, _sort, _order } = req.query;
     // TODO: design better solution for handling 'id' being passed
@@ -49,8 +50,10 @@ app.get(
           [_sort]: _order == "ASC" ? "asc" : "desc",
         },
       };
+      console.log('params', params);
       // Get the collection
       const result = await prisma.user.findMany(params);
+      console.log('result', result);
       // Set the headers
       res.set("x-total-count", result.length.toString());
       // Return the result
@@ -268,7 +271,11 @@ app.delete(
 
 // Error handling
 
-app.use((err: any, _req: any, res: any, _next: any) => {
+app.use((err: any, req: any, res: any, next: any) => {
+  // console.log('err', err);
+  // console.log('req', req);
+  // console.log('res', res);
+  // console.log('next', next);
   res.status(500);
   res.json({ error: err });
 });
