@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import * as bodyParser from "body-parser";
+import * as cors from "cors";
 import express from "express";
 
 const prisma = new PrismaClient();
@@ -17,7 +18,11 @@ const catchAsync = (fn: any) => {
   };
 };
 
-// Coniguration
+// Configure CORS
+
+app.use(cors())
+
+// Configure JSON responses
 
 app.use(bodyParser.json());
 
