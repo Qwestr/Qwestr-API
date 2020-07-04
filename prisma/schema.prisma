@@ -1,8 +1,14 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-datasource sqlite {
-  provider = "sqlite"
+// Use this datasource when developing locally
+// datasource sqlite {
+//   provider = "sqlite"
+//   url      = env("DATABASE_URL")
+// }
+
+datasource postgresql {
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
