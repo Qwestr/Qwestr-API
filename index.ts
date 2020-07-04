@@ -5,6 +5,10 @@ import express from "express";
 const prisma = new PrismaClient();
 const app = express();
 
+// Define constants
+
+const PORT = process.env.PORT || 3001;
+
 // Helper methods
 
 const catchAsync = (fn: any) => {
@@ -272,5 +276,5 @@ app.use((err: any, _req: any, res: any, _next: any) => {
 // Run the application
 
 app.listen(process.env.PORT || 3001, () =>
-  console.log("🚀 Server ready at: http://localhost:3001")
+  console.log("🚀 Server ready @ port: ", PORT)
 );
