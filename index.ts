@@ -276,5 +276,5 @@ app.use((err: any, _req: any, res: any, _next: any) => {
 // Run the application
 
 app.listen(process.env.PORT || 3001, () =>
-  console.log("🚀 Server ready port: ", PORT)
+  console.log("🚀 Server ready @ port: ", PORT)
 );
