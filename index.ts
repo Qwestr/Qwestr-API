@@ -12,13 +12,43 @@ const app = express();
 
 const PORT = process.env.PORT || 3001;
 
-// Helper methods
+// Define helper methods
 
 const catchAsync = (fn: any) => {
   return (req: any, res: any, next: any) => {
     fn(req, res, next).catch(next);
   };
 };
+
+// Configure Passport session (de)serialization
+
+passport.serializeUser<any, any>((user, done) => {
+  done(undefined, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  // User.findById(id, (err, user) => {
+  //     done(err, user);
+  // });
+});
+
+// Configure local Passport strategy
+
+const LocalStrategy = passportLocal.Strategy;
+passport.use(
+  new LocalStrategy((email, password, done) => {
+    // User.findOne({ email: email }, (err, user) => {
+    //   if (err) { return done(err); }
+    //   if (!user) {
+    //     return done(null, false, { message: 'Incorrect username.' });
+    //   }
+    //   if (!user.validPassword(password)) {
+    //     return done(null, false, { message: 'Incorrect password.' });
+    //   }
+    //   return done(null, user);
+    // });
+  })
+);
 
 // Configure CORS
 
@@ -38,6 +68,28 @@ app.use(cors(options));
 // Configure responses to return JSON
 
 app.use(bodyParser.json());
+
+// Authenication APIs
+
+app.get(
+  "/login",
+  catchAsync(async (req: any, res: any, next: any) => {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.redirect("/login");
+      }
+      req.logIn(user, (err: any) => {
+        if (err) {
+          return next(err);
+        }
+        return res.redirect("/users/" + user.username);
+      });
+    })(req, res, next);
+  })
+);
 
 // Users APIs
 
