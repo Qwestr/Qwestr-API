@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import * as bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
+import passport from "passport";
+import passportLocal from "passport-local";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -20,18 +22,20 @@ const catchAsync = (fn: any) => {
 
 // Configure CORS
 
-const options:cors.CorsOptions = {
-  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
+const options: cors.CorsOptions = {
+  allowedHeaders: [
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "X-Access-Token",
+  ],
   exposedHeaders: ["X-Total-Count"],
-//   credentials: true,
-//   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-//   origin: API_URL,
-//   preflightContinue: false
 };
 
-app.use(cors(options))
+app.use(cors(options));
 
-// Configure JSON responses
+// Configure responses to return JSON
 
 app.use(bodyParser.json());
 
