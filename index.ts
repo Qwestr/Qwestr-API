@@ -32,11 +32,16 @@ passport.deserializeUser((id, done) => {
   // });
 });
 
-// Configure local Passport strategy
+// Configure Passport strategies
 
 const LocalStrategy = passportLocal.Strategy;
 passport.use(
-  new LocalStrategy((email, password, done) => {
+  new LocalStrategy((username, password, done) => {
+    return done(null, {
+      id: 1,
+      username,
+      password,
+    });
     // User.findOne({ email: email }, (err, user) => {
     //   if (err) { return done(err); }
     //   if (!user) {
@@ -49,6 +54,9 @@ passport.use(
     // });
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Configure CORS
 
@@ -71,30 +79,21 @@ app.use(bodyParser.json());
 
 // Authenication APIs
 
-app.get(
+app.post(
   "/login",
+  passport.authenticate("local"),
   catchAsync(async (req: any, res: any, next: any) => {
-    passport.authenticate("local", (err, user, info) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return res.redirect("/login");
-      }
-      req.logIn(user, (err: any) => {
-        if (err) {
-          return next(err);
-        }
-        return res.redirect("/users/" + user.username);
-      });
-    })(req, res, next);
+    // Return the result
+    res.json({
+      result: 'Success'
+    });
   })
 );
 
 // Users APIs
 
 app.get(
-  `/users`,
+  "/users",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request query
     const { id, _start, _end, _sort, _order } = req.query;
@@ -130,7 +129,7 @@ app.get(
 );
 
 app.post(
-  `/users`,
+  "/users",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request body
     const { email, name } = req.body;
@@ -147,7 +146,7 @@ app.post(
 );
 
 app.get(
-  `/users/:id`,
+  "/users/:id",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request params
     const { id } = req.params;
@@ -182,7 +181,7 @@ app.put(
 );
 
 app.delete(
-  `/users/:id`,
+  "/users/:id",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request params
     const { id } = req.params;
@@ -200,7 +199,7 @@ app.delete(
 // Qwests APIs
 
 app.get(
-  `/qwests`,
+  "/qwests",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request query
     const {
@@ -266,7 +265,7 @@ app.get(
 );
 
 app.post(
-  `/qwests`,
+  "/qwests",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request body
     const { title, completeBy, userId } = req.body;
@@ -284,7 +283,7 @@ app.post(
 );
 
 app.get(
-  `/qwests/:id`,
+  "/qwests/:id",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request params
     const { id } = req.params;
@@ -321,7 +320,7 @@ app.put(
 );
 
 app.delete(
-  `/qwests/:id`,
+  "/qwests/:id",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request params
     const { id } = req.params;
