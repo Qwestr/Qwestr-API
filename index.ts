@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import * as bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
+import passport from "passport";
+import passportLocal from "passport-local";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -10,7 +12,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3001;
 
-// Helper methods
+// Define helper methods
 
 const catchAsync = (fn: any) => {
   return (req: any, res: any, next: any) => {
@@ -18,27 +20,80 @@ const catchAsync = (fn: any) => {
   };
 };
 
+// Configure Passport session (de)serialization
+
+passport.serializeUser<any, any>((user, done) => {
+  done(undefined, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  // User.findById(id, (err, user) => {
+  //     done(err, user);
+  // });
+});
+
+// Configure Passport strategies
+
+const LocalStrategy = passportLocal.Strategy;
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    return done(null, {
+      id: 1,
+      username,
+      password,
+    });
+    // User.findOne({ email: email }, (err, user) => {
+    //   if (err) { return done(err); }
+    //   if (!user) {
+    //     return done(null, false, { message: 'Incorrect username.' });
+    //   }
+    //   if (!user.validPassword(password)) {
+    //     return done(null, false, { message: 'Incorrect password.' });
+    //   }
+    //   return done(null, user);
+    // });
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Configure CORS
 
-const options:cors.CorsOptions = {
-  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
+const options: cors.CorsOptions = {
+  allowedHeaders: [
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "X-Access-Token",
+  ],
   exposedHeaders: ["X-Total-Count"],
-//   credentials: true,
-//   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-//   origin: API_URL,
-//   preflightContinue: false
 };
 
-app.use(cors(options))
+app.use(cors(options));
 
-// Configure JSON responses
+// Configure responses to return JSON
 
 app.use(bodyParser.json());
+
+// Authenication APIs
+
+app.post(
+  "/login",
+  passport.authenticate("local"),
+  catchAsync(async (req: any, res: any, next: any) => {
+    // Return the result
+    res.json({
+      result: 'Success'
+    });
+  })
+);
 
 // Users APIs
 
 app.get(
-  `/users`,
+  "/users",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request query
     const { id, _start, _end, _sort, _order } = req.query;
@@ -74,7 +129,7 @@ app.get(
 );
 
 app.post(
-  `/users`,
+  "/users",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request body
     const { email, name } = req.body;
@@ -91,7 +146,7 @@ app.post(
 );
 
 app.get(
-  `/users/:id`,
+  "/users/:id",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request params
     const { id } = req.params;
@@ -126,7 +181,7 @@ app.put(
 );
 
 app.delete(
-  `/users/:id`,
+  "/users/:id",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request params
     const { id } = req.params;
@@ -144,7 +199,7 @@ app.delete(
 // Qwests APIs
 
 app.get(
-  `/qwests`,
+  "/qwests",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request query
     const {
@@ -210,7 +265,7 @@ app.get(
 );
 
 app.post(
-  `/qwests`,
+  "/qwests",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request body
     const { title, completeBy, userId } = req.body;
@@ -228,7 +283,7 @@ app.post(
 );
 
 app.get(
-  `/qwests/:id`,
+  "/qwests/:id",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request params
     const { id } = req.params;
@@ -265,7 +320,7 @@ app.put(
 );
 
 app.delete(
-  `/qwests/:id`,
+  "/qwests/:id",
   catchAsync(async (req: any, res: any, _next: any) => {
     // Deserialize the request params
     const { id } = req.params;
